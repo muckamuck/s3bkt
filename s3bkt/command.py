@@ -19,4 +19,4 @@ def cli():
 @click.option('--directory', '-d', required=True, help='directory that holds the bucket config')
 @click.version_option(version='0.1.0')
 def main(directory):
-    print(f'food: {junk}')
+    print(f'food: {directory}')
