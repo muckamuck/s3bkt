@@ -1,0 +1,4 @@
+boto3>=1.9
+twine>=1.12
+bumpversion>=0.5
+pylint>=1.8
