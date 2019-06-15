@@ -1,0 +1,11 @@
+*.egg-info/
+__pycache__/
+.ropeproject/
+build/
+dist/
+.idea/
+*.pyc
+x
+x.sh
+errors_file
+nohup.out
