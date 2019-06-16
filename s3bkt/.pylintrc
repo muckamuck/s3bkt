@@ -1,0 +1,4 @@
+[MESSAGES CONTROL]
+disable=invalid-name,
+        broad-except,
+        too-few-public-methods
