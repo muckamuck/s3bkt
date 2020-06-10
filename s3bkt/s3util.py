@@ -3,6 +3,8 @@ S3 bucket utility
 '''
 import os
 import logging
+import json
+import pdb
 
 logger = logging.getLogger('S3Utility')
 
@@ -31,16 +33,29 @@ class S3Utility:
         if not os.path.isdir(self.directory):
             raise ValueError(f'{self.directory} is not a directory')
 
-        config_found = False
+        config_file = None
+        self.config = dict()
         for f in config_files:
             wrk = f'{self.directory}/{f}'
             if os.path.isfile(wrk):
-                self.config = wrk
-                config_found = True
+                config_file = wrk
                 break
 
-        if config_found:
-            logger.info('configuration file found: %s', self.config)
+        if config_file:
+            logger.info('configuration file found: %s', config_file)
+            with open(config_file, 'r') as f:
+                tmp = f.readline()
+                while tmp:
+                    tmp = tmp.strip()
+                    if not tmp.startswith('#'):
+                        parts = tmp.split('=')
+                        if len(parts) == 2:
+                            key = parts[0].strip()
+                            val = parts[1].strip()
+                            self.config[key] = val
+                        else:
+                            logger.warning('bad config element: "%s"', tmp)
+                    tmp = f.readline()
         else:
             raise ValueError(f'configuration file not found')
 
@@ -55,7 +70,7 @@ class S3Utility:
             True or False, good or bad
         '''
         try:
-            logger.info('working on bucket found in: %s', self.config)
+            logger.info('working on bucket found in: %s', json.dumps(self.config, indent=2))
         except Exception as wtf:
             logger.error(wtf, exc_info=True)
             return False
