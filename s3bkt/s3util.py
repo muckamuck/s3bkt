@@ -110,8 +110,8 @@ class S3Utility:
             True or False, good or bad
         '''
         try:
-            logger.info(
-                'working on bucket found in: %s', json.dumps(self.config, indent=2))
+            logger.info('working on bucket: %s', self.config.get('bucket'))
+            logger.debug('bucket config: %s', json.dumps(self.config, indent=2))
             if 'policy' in self.config:
                 if not self.apply_bucket_policy():
                     logger.error('apply_bucket_policy failed')
@@ -150,7 +150,7 @@ class S3Utility:
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
-            logger.error(wtf, exc_info=True)
+            logger.error(wtf, exc_info=False)
             return False
         else:
             return True
@@ -167,7 +167,7 @@ class S3Utility:
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
-            logger.error(wtf, exc_info=True)
+            logger.error(wtf, exc_info=False)
             return False
         else:
             return True
@@ -184,7 +184,7 @@ class S3Utility:
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
-            logger.error(wtf, exc_info=True)
+            logger.error(wtf, exc_info=False)
             return False
         else:
             return True
@@ -201,7 +201,7 @@ class S3Utility:
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
-            logger.error(wtf, exc_info=True)
+            logger.error(wtf, exc_info=False)
             return False
         else:
             return True
@@ -218,7 +218,7 @@ class S3Utility:
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
-            logger.error(wtf, exc_info=True)
+            logger.error(wtf, exc_info=False)
             return False
         else:
             return True
