@@ -120,6 +120,18 @@ class S3Utility:
                 if not self.apply_encryption_policy():
                     logger.error('apply_encryption_policy failed')
                     sys.exit(1)
+            if 'notification' in self.config:
+                if not self.apply_notification_policy():
+                    logger.error('apply_notification_policy failed')
+                    sys.exit(1)
+            if 'lifecycle' in self.config:
+                if not self.apply_lifecycle_policy():
+                    logger.error('apply_lifecyle_policy failed')
+                    sys.exit(1)
+            if 'tags' in self.config:
+                if not self.apply_tags():
+                    logger.error('apply_tags failed')
+                    sys.exit(1)
         except Exception as wtf:
             logger.error(wtf, exc_info=True)
             return False
@@ -152,6 +164,57 @@ class S3Utility:
             )
             logger.info(
                 'put_bucket_encryption: %s',
+                json.dumps(response, indent=2, default=date_converter)
+            )
+        except Exception as wtf:
+            logger.error(wtf, exc_info=True)
+            return False
+        else:
+            return True
+
+    def apply_notification_policy(self):
+        try:
+            logger.info('applying notification configuration')
+            response = self.s3_client.put_bucket_notification_configuration(
+                Bucket=self.config.get('bucket', None),
+                NotificationConfiguration=self.config.get('notification')
+            )
+            logger.info(
+                'put_bucket_notification_configuration: %s',
+                json.dumps(response, indent=2, default=date_converter)
+            )
+        except Exception as wtf:
+            logger.error(wtf, exc_info=True)
+            return False
+        else:
+            return True
+
+    def apply_lifecycle_policy(self):
+        try:
+            logger.info('applying lifecyle configuration')
+            response = self.s3_client.put_bucket_lifecycle_configuration(
+                Bucket=self.config.get('bucket', None),
+                LifecycleConfiguration=self.config.get('lifecycle')
+            )
+            logger.info(
+                'put_bucket_lifecycle_configuration: %s',
+                json.dumps(response, indent=2, default=date_converter)
+            )
+        except Exception as wtf:
+            logger.error(wtf, exc_info=True)
+            return False
+        else:
+            return True
+
+    def apply_tags(self):
+        try:
+            logger.info('applying tags')
+            response = self.s3_client.put_bucket_tagging(
+                Bucket=self.config.get('bucket', None),
+                Tagging=self.config.get('tags')
+            )
+            logger.info(
+                'put_bucket_tagging: %s',
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
