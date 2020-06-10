@@ -1,13 +1,14 @@
-import boto3
 import logging
+import boto3
+
+logger = logging.getLogger(__name__)
 
 
-def init_boto3_clients(services, profile, region, role):
+def init_boto3_clients(services, **kwargs):
     """
-    Get boto3 clients for all the requested services.
+    Creates boto3 clients
 
     Args:
-        services - list of services for which we want clients
         profile - CLI profile to use
         region - where do you want the clients
 
@@ -15,6 +16,8 @@ def init_boto3_clients(services, profile, region, role):
         Good or Bad; True or False
     """
     try:
+        profile = kwargs.get('profile', None)
+        region = kwargs.get('region', None)
         clients = {}
         session = None
         if profile and region:
@@ -31,5 +34,5 @@ def init_boto3_clients(services, profile, region, role):
 
         return clients
     except Exception as wtf:
-        logging.error(wtf, exc_info=True)
+        logger.error(wtf, exc_info=True)
         return None

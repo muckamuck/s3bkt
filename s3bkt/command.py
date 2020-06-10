@@ -19,8 +19,10 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 @click.option('--directory', '-d', required=True, help='directory that holds the bucket config')
+@click.option('--region', '-r', help='AWS region')
+@click.option('--profile', '-p', help='AWS credential profile')
 @click.version_option(version='0.1.0')
-def main(directory):
+def main(directory, region, profile):
     '''
     The main entry point for this utility
 
@@ -31,7 +33,11 @@ def main(directory):
         None
     '''
     try:
-        tool = S3Utility(directory=directory)
+        tool = S3Utility(
+            directory=directory,
+            profile=profile,
+            region=region
+        )
 
         if tool.work():
             logger.info('bucket work went well')
