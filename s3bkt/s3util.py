@@ -2,6 +2,7 @@
 S3 bucket utility
 '''
 import os
+import sys
 import logging
 import json
 import boto3
@@ -112,7 +113,13 @@ class S3Utility:
             logger.info(
                 'working on bucket found in: %s', json.dumps(self.config, indent=2))
             if 'policy' in self.config:
-                self.apply_bucket_policy()
+                if not self.apply_bucket_policy():
+                    logger.error('apply_bucket_policy failed')
+                    sys.exit(1)
+            if 'encryption' in self.config:
+                if not self.apply_encryption_policy():
+                    logger.error('apply_encryption_policy failed')
+                    sys.exit(1)
         except Exception as wtf:
             logger.error(wtf, exc_info=True)
             return False
@@ -128,6 +135,23 @@ class S3Utility:
             )
             logger.info(
                 'put_bucket_policy: %s',
+                json.dumps(response, indent=2, default=date_converter)
+            )
+        except Exception as wtf:
+            logger.error(wtf, exc_info=True)
+            return False
+        else:
+            return True
+
+    def apply_encryption_policy(self):
+        try:
+            logger.info('applying encryption policy')
+            response = self.s3_client.put_bucket_encryption(
+                Bucket=self.config.get('bucket', None),
+                ServerSideEncryptionConfiguration=self.config.get('encryption')
+            )
+            logger.info(
+                'put_bucket_encryption: %s',
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
