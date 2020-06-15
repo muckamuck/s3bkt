@@ -20,6 +20,7 @@ policy_files = [
     'notification.json',
     'lifecycle.json',
     'policy.json',
+    'cors.json',
     'tags.json'
 ]
 
@@ -132,6 +133,10 @@ class S3Utility:
                 if not self.apply_tags():
                     logger.error('apply_tags failed')
                     sys.exit(1)
+            if 'cors' in self.config:
+                if not self.apply_cors():
+                    logger.error('apply_cors failed')
+                    sys.exit(1)
         except Exception as wtf:
             logger.error(wtf, exc_info=True)
             return False
@@ -215,6 +220,23 @@ class S3Utility:
             )
             logger.info(
                 'put_bucket_tagging: %s',
+                json.dumps(response, indent=2, default=date_converter)
+            )
+        except Exception as wtf:
+            logger.error(wtf, exc_info=False)
+            return False
+        else:
+            return True
+
+    def apply_cors(self):
+        try:
+            logger.info('applying cors')
+            response = self.s3_client.put_bucket_cors(
+                Bucket=self.config.get('bucket', None),
+                CORSConfiguration=self.config.get('cors')
+            )
+            logger.info(
+                'put_bucket_cors: %s',
                 json.dumps(response, indent=2, default=date_converter)
             )
         except Exception as wtf:
