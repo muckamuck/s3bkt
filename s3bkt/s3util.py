@@ -54,12 +54,6 @@ class S3Utility:
         if not os.path.isdir(self.directory):
             raise ValueError(f'{self.directory} is not a directory')
 
-        self.s3_client = init_boto3_clients(
-            services,
-            region=kwargs.get('region', None),
-            profile=kwargs.get('profile', None)
-        ).get('s3', None)
-
         config_file = None
         self.config = dict()
         for f in config_files:
@@ -85,6 +79,12 @@ class S3Utility:
                     tmp = f.readline()
         else:
             raise ValueError(f'configuration file not found')
+
+        self.s3_client = init_boto3_clients(
+            services,
+            region=self.config.get('region', None),
+            profile=self.config.get('profile', None)
+        ).get('s3', None)
 
         try:
             for p in policy_files:
