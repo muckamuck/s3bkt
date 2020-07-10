@@ -1,0 +1,27 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "S3BKT83994058743",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::123456780123:role/SomeRole",
+                    "arn:aws:iam::123456780123:role/AnotherRole"
+                ]
+            },
+            "Action": [
+                "s3:RestoreObject",
+                "s3:AbortMultipartUpload",
+                "s3:List*",
+                "s3:Get*",
+                "s3:Delete*",
+                "s3:Put*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::some-bucket-name/*",
+                "arn:aws:s3:::some-bucket-name"
+            ]
+        }
+    ]
+}

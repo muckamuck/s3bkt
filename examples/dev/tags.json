@@ -1,0 +1,8 @@
+{
+    "TagSet": [
+        { "Key": "Name", "Value": "some-bucket-name" },
+        { "Key": "ResourceOwner", "Value": "some.body@domain.com" },
+        { "Key": "DeployedBy", "Value": "another.guy@domain.com" },
+	    { "Key": "Project", "Value":"s3bkt" }
+    ]
+}

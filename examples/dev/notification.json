@@ -1,0 +1,55 @@
+{
+    "QueueConfigurations": [
+        {
+            "Filter": {
+                "Key": {
+                    "FilterRules": [
+                        {
+                            "Name": "prefix",
+                            "Value": "folder01/"
+                        }
+                    ]
+                }
+            },
+            "QueueArn": "arn:aws:sqs:us-east-1:123456701234:an-sqs-queue",
+            "Events": [
+                "s3:ObjectCreated:*",
+                "s3:ObjectRestore:Completed"
+            ]
+        }
+    ],
+    "LambdaFunctionConfigurations": [
+        {
+            "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456701234:function:a-lambda-function",
+            "Events": [
+                "s3:ObjectCreated:*"
+            ],
+            "Filter": {
+                "Key": {
+                    "FilterRules": [
+                        {
+                            "Name": "prefix",
+                            "Value": "folder02/"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456701234:function:another-lambda-function",
+            "Events": [
+                "s3:ObjectCreated:*"
+            ],
+            "Filter": {
+                "Key": {
+                    "FilterRules": [
+                        {
+                            "Name": "prefix",
+                            "Value": "folder03/"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
