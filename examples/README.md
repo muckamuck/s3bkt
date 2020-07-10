@@ -1,3 +1,5 @@
+## Example config files:
+
 #### dev/encryption.json
 ```json
 {
