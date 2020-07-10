@@ -128,3 +128,69 @@ profile=some-credential0-profile
     ]
 }
 ```
+
+---
+
+#### dev/lifecycle.json
+```json
+{
+    "Rules": [
+        {
+            "Status": "Enabled",
+            "NoncurrentVersionExpiration": {
+                "NoncurrentDays": 60
+            },
+            "NoncurrentVersionTransitions": [
+                {
+                    "NoncurrentDays": 14,
+                    "StorageClass": "GLACIER"
+                }
+            ],
+            "Filter": {
+                "Prefix": "folder0"
+            },
+            "Expiration": {
+                "Days": 60
+            },
+            "AbortIncompleteMultipartUpload": {
+                "DaysAfterInitiation": 7
+            },
+            "Transitions": [
+                {
+                    "Days": 14,
+                    "StorageClass": "GLACIER"
+                }
+            ],
+            "ID": "ToGlacier"
+        },
+        {
+            "Status": "Enabled",
+            "NoncurrentVersionExpiration": {
+                "NoncurrentDays": 60
+            },
+            "NoncurrentVersionTransitions": [
+                {
+                    "NoncurrentDays": 14,
+                    "StorageClass": "GLACIER"
+                }
+            ],
+            "Filter": {
+                "Prefix": "folder1"
+            },
+            "Expiration": {
+                "Days": 60
+            },
+            "AbortIncompleteMultipartUpload": {
+                "DaysAfterInitiation": 7
+            },
+            "Transitions": [
+                {
+                    "Days": 21,
+                    "StorageClass": "GLACIER"
+                }
+            ],
+            "ID": "ToGlacier"
+        }
+    ]
+}
+```
