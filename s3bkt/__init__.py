@@ -2,7 +2,7 @@ from s3bkt.s3util import S3Utility #noqa
 from datetime import datetime
 
 __title__ = 's3bkt'
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 __author__ = 'Mr. Chuck Muckamuck (obviously a pseudonym)'
 __author_email__ = 'chuck.muckamuck@gmail.com'
 __license__ = '''
