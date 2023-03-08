@@ -1,9 +1,10 @@
+venv/
+build/
+dist/
 3c323794/
 *.egg-info/
 __pycache__/
 .ropeproject/
-build/
-dist/
 .idea/
 *.pyc
 x
