@@ -21,7 +21,8 @@ policy_files = [
     'lifecycle.json',
     'policy.json',
     'cors.json',
-    'tags.json'
+    'tags.json',
+    'replication.json'
 ]
 
 services = [
@@ -127,7 +128,7 @@ class S3Utility:
                     sys.exit(1)
             if 'lifecycle' in self.config:
                 if not self.apply_lifecycle_policy():
-                    logger.error('apply_lifecyle_policy failed')
+                    logger.error('apply_lifecycle_policy failed')
                     sys.exit(1)
             if 'tags' in self.config:
                 if not self.apply_tags():
@@ -137,11 +138,32 @@ class S3Utility:
                 if not self.apply_cors():
                     logger.error('apply_cors failed')
                     sys.exit(1)
+            if 'replication' in self.config:
+                if not self.apply_replication():
+                    logger.error('apply_replication failed')
+                    sys.exit(1)
         except Exception as wtf:
             logger.error(wtf, exc_info=True)
             return False
 
         return True
+
+    def apply_replication(self):
+        try:
+            logger.info('applying replication policy')
+            response = self.s3_client.put_bucket_replication(
+                Bucket=self.config.get('bucket', None),
+                Policy=json.dumps(self.config.get('replication'))
+            )
+            logger.info(
+                'put_bucket_replication: %s',
+                json.dumps(response, indent=2, default=date_converter)
+            )
+        except Exception as wtf:
+            logger.error(wtf, exc_info=False)
+            return False
+        else:
+            return True
 
     def apply_bucket_policy(self):
         try:
@@ -196,7 +218,7 @@ class S3Utility:
 
     def apply_lifecycle_policy(self):
         try:
-            logger.info('applying lifecyle configuration')
+            logger.info('applying lifecycle configuration')
             response = self.s3_client.put_bucket_lifecycle_configuration(
                 Bucket=self.config.get('bucket', None),
                 LifecycleConfiguration=self.config.get('lifecycle')
