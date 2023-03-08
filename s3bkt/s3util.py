@@ -153,7 +153,7 @@ class S3Utility:
             logger.info('applying replication policy')
             response = self.s3_client.put_bucket_replication(
                 Bucket=self.config.get('bucket', None),
-                Policy=json.dumps(self.config.get('replication'))
+                ReplicationConfiguration=self.config.get('replication')
             )
             logger.info(
                 'put_bucket_replication: %s',
