@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name="S3bkt",
-    version='0.2.1',
+    version='0.3.0',
     packages=['s3bkt'],
     description='S3 bucket utility',
     author='Chuck Muckamuck',
