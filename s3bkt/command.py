@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 @click.option('--directory', '-d', required=True, help='directory that holds the bucket config')
-@click.version_option(version='0.3.1')
+@click.version_option(version='0.4.0')
 def main(directory):
     '''
     The main entry point for this utility
